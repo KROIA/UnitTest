@@ -13,7 +13,7 @@ FetchContent_Declare(
     GIT_TAG        ${GIT_TAG}
 )
 
-set(${LIB_NAME}_NO_SAMPLES True)						# Disables the examlpes of the library
+set(${LIB_NAME}_NO_EXAMPLES True)						# Disables the examlpes of the library
 set(${LIB_NAME}_NO_UNITTTESTS True)						# Disables the unittests of the library
 message("Downloading dependency: ${LIB_NAME} from: ${GIT_REPO} tag: ${GIT_TAG}")
 FetchContent_MakeAvailable(${LIB_NAME})
