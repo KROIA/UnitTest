@@ -1,12 +1,6 @@
 #pragma once
 
 #include "UnitTest.h"
-#include <QObject>
-#include <QCoreapplication>
-
-
-
-
 
 class TST_simple : public UnitTest::Test
 {

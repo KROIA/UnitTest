@@ -6,16 +6,16 @@
 
 // Debugging
 #ifdef NDEBUG
-#define UT_CONSOLE(msg)
-#define UT_CONSOLE_FUNCTION(msg)
+	#define UT_CONSOLE(msg)
+	#define UT_CONSOLE_FUNCTION(msg)
 #else
-#include <iostream>
+	#include <iostream>
 
-#define UT_DEBUG
-#define UT_CONSOLE_STREAM std::cout
+	#define UT_DEBUG
+	#define UT_CONSOLE_STREAM std::cout
 
-#define UT_CONSOLE(msg) UT_CONSOLE_STREAM << msg;
-#define UT_CONSOLE_FUNCTION(msg) UT_CONSOLE_STREAM << __PRETTY_FUNCTION__ << " " << msg;
+	#define UT_CONSOLE(msg) UT_CONSOLE_STREAM << msg;
+	#define UT_CONSOLE_FUNCTION(msg) UT_CONSOLE_STREAM << __PRETTY_FUNCTION__ << " " << msg;
 #endif
 
 /// USER_SECTION_START 2
@@ -23,33 +23,33 @@
 /// USER_SECTION_END
 
 #ifdef UT_PROFILING
-#include "easy/profiler.h"
-#include <easy/arbitrary_value.h> // EASY_VALUE, EASY_ARRAY are defined here
+	#include "easy/profiler.h"
+	#include <easy/arbitrary_value.h> // EASY_VALUE, EASY_ARRAY are defined here
 
-#define UT_PROFILING_BLOCK_C(text, color) EASY_BLOCK(text, color)
-#define UT_PROFILING_NONSCOPED_BLOCK_C(text, color) EASY_NONSCOPED_BLOCK(text, color)
-#define UT_PROFILING_END_BLOCK EASY_END_BLOCK
-#define UT_PROFILING_FUNCTION_C(color) EASY_FUNCTION(color)
-#define UT_PROFILING_BLOCK(text, colorStage) UT_PROFILING_BLOCK_C(text,profiler::colors::  colorStage)
-#define UT_PROFILING_NONSCOPED_BLOCK(text, colorStage) UT_PROFILING_NONSCOPED_BLOCK_C(text,profiler::colors::  colorStage)
-#define UT_PROFILING_FUNCTION(colorStage) UT_PROFILING_FUNCTION_C(profiler::colors:: colorStage)
-#define UT_PROFILING_THREAD(name) EASY_THREAD(name)
+	#define UT_PROFILING_BLOCK_C(text, color) EASY_BLOCK(text, color)
+	#define UT_PROFILING_NONSCOPED_BLOCK_C(text, color) EASY_NONSCOPED_BLOCK(text, color)
+	#define UT_PROFILING_END_BLOCK EASY_END_BLOCK
+	#define UT_PROFILING_FUNCTION_C(color) EASY_FUNCTION(color)
+	#define UT_PROFILING_BLOCK(text, colorStage) UT_PROFILING_BLOCK_C(text,profiler::colors::  colorStage)
+	#define UT_PROFILING_NONSCOPED_BLOCK(text, colorStage) UT_PROFILING_NONSCOPED_BLOCK_C(text,profiler::colors::  colorStage)
+	#define UT_PROFILING_FUNCTION(colorStage) UT_PROFILING_FUNCTION_C(profiler::colors:: colorStage)
+	#define UT_PROFILING_THREAD(name) EASY_THREAD(name)
 
-#define UT_PROFILING_VALUE(name, value) EASY_VALUE(name, value)
-#define UT_PROFILING_TEXT(name, value) EASY_TEXT(name, value)
+	#define UT_PROFILING_VALUE(name, value) EASY_VALUE(name, value)
+	#define UT_PROFILING_TEXT(name, value) EASY_TEXT(name, value)
 
 #else
-#define UT_PROFILING_BLOCK_C(text, color)
-#define UT_PROFILING_NONSCOPED_BLOCK_C(text, color)
-#define UT_PROFILING_END_BLOCK
-#define UT_PROFILING_FUNCTION_C(color)
-#define UT_PROFILING_BLOCK(text, colorStage)
-#define UT_PROFILING_NONSCOPED_BLOCK(text, colorStage)
-#define UT_PROFILING_FUNCTION(colorStage)
-#define UT_PROFILING_THREAD(name)
+	#define UT_PROFILING_BLOCK_C(text, color)
+	#define UT_PROFILING_NONSCOPED_BLOCK_C(text, color)
+	#define UT_PROFILING_END_BLOCK
+	#define UT_PROFILING_FUNCTION_C(color)
+	#define UT_PROFILING_BLOCK(text, colorStage)
+	#define UT_PROFILING_NONSCOPED_BLOCK(text, colorStage)
+	#define UT_PROFILING_FUNCTION(colorStage)
+	#define UT_PROFILING_THREAD(name)
 
-#define UT_PROFILING_VALUE(name, value)
-#define UT_PROFILING_TEXT(name, value)
+	#define UT_PROFILING_VALUE(name, value)
+	#define UT_PROFILING_TEXT(name, value)
 #endif
 
 // Special expantion tecniques are required to combine the color name
