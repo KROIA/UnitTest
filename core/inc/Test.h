@@ -41,7 +41,7 @@ namespace UnitTest
 		using TestFunction = std::function<bool(TestResults&)>;
 
 		Test(const std::string& name);
-		~Test();
+		virtual ~Test();
 
 
 		bool runTests();
@@ -78,6 +78,11 @@ namespace UnitTest
 		static TestFunction bindMember(ObjectType* obj, bool(ObjectType::* memberFunc)(TestResults& r))
 		{
 			return [obj, memberFunc](TestResults& r) { return (obj->*memberFunc)(r); };
+		}
+
+		virtual void onFail(const std::string& message)
+		{
+			message;
 		}
 
 	private:
@@ -133,6 +138,7 @@ namespace UnitTest
 		res.message = TEST_FILE_LINE_STR+"Expected (" + std::string(#a) + ") to equal (" + std::string(#b)+ ")"; \
 		r.results.push_back(res); \
 		success = false; \
+		onFail(res.message); \
 		if(doesBreakOnFail()) \
 		{ \
 			TEST_END; \
@@ -154,6 +160,7 @@ namespace UnitTest
 		res.message = TEST_FILE_LINE_STR+assertMessage; \
 		r.results.push_back(res); \
 		success = false; \
+		onFail(res.message); \
 		if(doesBreakOnFail()) \
 		{ \
 			TEST_END; \
@@ -178,6 +185,7 @@ namespace UnitTest
 		res.message = TEST_FILE_LINE_STR+reason; \
 		r.results.push_back(res); \
 		success = false; \
+		onFail(res.message); \
 		if(doesBreakOnFail()) \
 		{ \
 			TEST_END; \
