@@ -49,6 +49,7 @@ namespace UnitTest
 	{
 		results.name = m_name;
 		results.subResults.reserve(m_testFunctions.size());
+		onTestsStart();
 
 		bool success = true;
 		for (size_t i = 0; i < m_testFunctions.size(); ++i)
@@ -65,6 +66,8 @@ namespace UnitTest
 		}
 		results.success = success;
 		m_results = results;
+
+		onTestsEnd();
 		return success;
 	}
 

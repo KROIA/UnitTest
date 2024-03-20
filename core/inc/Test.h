@@ -82,8 +82,12 @@ namespace UnitTest
 
 		virtual void onFail(const std::string& message)
 		{
-			message;
+			UT_UNUSED(message);
 		}
+		virtual void onTestsStart()
+		{ }
+		virtual void onTestsEnd()
+		{ }
 
 	private:
 		static std::vector<Test*>& getTestsInternal();
