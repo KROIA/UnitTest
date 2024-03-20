@@ -115,7 +115,7 @@ namespace UnitTest
 			for (int j = 0; j < depth; ++j)
 				std::cout << " | ";
 			std::string stateString;
-			std::cout << " |   " << results.results[i].message << ": ";
+			std::cout << " |   " << results.results[i].message;
 
 			// print the state in the correct color
 			color = color_white;
@@ -123,11 +123,11 @@ namespace UnitTest
 			switch (results.results[i].state)
 			{
 			case ResultState::pass:
-				stateString = "PASS";
+				stateString = " PASS";
 				color = color_green;
 				break;
 			case ResultState::fail:
-				stateString = "FAIL";
+				stateString = " FAIL";
 				color = color_red;
 				break;
 			case ResultState::none:
