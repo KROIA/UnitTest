@@ -34,9 +34,36 @@ namespace UnitTest
 		{
 			std::string name;
 			std::vector<TestResult> results;
-			bool success;
-
 			std::vector<TestResults> subResults;
+
+			bool getSuccess() const
+			{
+				if (!success)
+					return false;
+				for(const auto& res : results)
+				{
+					if (res.state == ResultState::fail)
+					{
+						return false;
+					}
+				}
+				for(const auto& subRes : subResults)
+				{
+					if (!subRes.getSuccess())
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+			void setSuccess(bool success)
+			{
+				this->success = success;
+			}
+		private:
+			bool success = false;
+
+			
 		};
 		using TestFunction = std::function<bool(TestResults&)>;
 
@@ -121,7 +148,7 @@ namespace UnitTest
 	r.name = __FUNCTION__;
 
 #define TEST_END \
-	r.success = success; \
+	r.setSuccess(success); \
 	return success;
 
 //#define TEST_FILE_LINE_STR (getName()+":" + std::to_string(__LINE__)+" ")

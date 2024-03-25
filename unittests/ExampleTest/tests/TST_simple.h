@@ -43,9 +43,20 @@ private:
 		{
 			TEST_FAIL("b is not 0");
 		}
+		nastedTest(results);
 
 		// fails if a != b
 		TEST_COMPARE(a, b);
+
+		TEST_END;
+	}
+
+	bool nastedTest(TestResults& results)
+	{
+		TEST_START(results);
+
+		TEST_MESSAGE("nasted test");
+		TEST_ASSERT_M(false, "Shuld fail");
 
 		TEST_END;
 	}

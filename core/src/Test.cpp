@@ -42,7 +42,7 @@ namespace UnitTest
 	{
 		m_results = TestResults();
 		bool success = runTests(m_results);
-		m_results.success = success;
+		m_results.setSuccess(success);
 		return success;
 	}
 	bool Test::runTests(TestResults& results)
@@ -64,7 +64,7 @@ namespace UnitTest
 			success &= m_subTests[i]->runTests(r);
 			results.subResults.push_back(r);
 		}
-		results.success = success;
+		results.setSuccess(success);
 		m_results = results;
 
 		onTestsEnd();
@@ -95,7 +95,7 @@ namespace UnitTest
 			std::cout << " | ";
 		int color = color_white;
 		std::cout << " +-" << results.name << ": ";
-		if (results.success)
+		if (results.getSuccess())
 			printColored("PASS", color_green);
 		else
 			printColored("FAIL", color_red);
@@ -143,7 +143,7 @@ namespace UnitTest
 			std::cout << " | ";
 
 		std::cout << " | \"" << results.name << "\" Testresult: ";
-		if (results.success)
+		if (results.getSuccess())
 			printColored("PASS", color_green);
 		else
 			printColored("FAIL", color_red);
@@ -193,7 +193,7 @@ namespace UnitTest
 			success &= s_tests[i]->runTests(r);
 			results.subResults.emplace_back(std::move(r));
 		}
-		results.success = success;
+		results.setSuccess(success);
 		return success;
 	}
 	void Test::printResults(const TestResults& results)
