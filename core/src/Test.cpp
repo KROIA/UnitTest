@@ -112,7 +112,7 @@ namespace UnitTest
 
 
 
-
+		tabs += " | ";
 		for (size_t i = 0; i < results.results.size(); ++i)
 		{
 			std::vector<std::string> lineSplitted;
@@ -124,7 +124,7 @@ namespace UnitTest
 			}
 			lineSplitted.push_back(msg);
 
-			std::string fileLineNumber = "Line [" + std::to_string(results.results[i].lineNr) + "]: ";
+			std::string fileLineNumber = " Line [" + std::to_string(results.results[i].lineNr) + "]: ";
 			for (size_t line = 0; line < lineSplitted.size(); ++line)
 			{
 				std::cout << tabs << fileLineNumber << lineSplitted[line];
