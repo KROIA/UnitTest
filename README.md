@@ -27,25 +27,24 @@ Only registered functions are called automaticly by the unit test engine.
 
 class TST_simple : public UnitTest::Test
 {
-	TEST_CLASS(TST_simple)      // [1]
-public:
-	TST_simple()
-		: Test("TST_simple")    // [2]
-	{
+    TEST_CLASS(TST_simple)      // [1]
+    public:
+    TST_simple()
+	: Test("TST_simple")    // [2]
+    {
         // [3]
-		ADD_TEST(TST_simple::test1);
-	}
-private:
+        ADD_TEST(TST_simple::test1);
+    }
+    private:
+    // Test function
+    TEST_FUNCTION(test1)
+    {
+	TEST_START;             // [4]
 
-	// Test function
-	TEST_FUNCTION(test1)
-	{
-		TEST_START;             // [4]
-
-		int a = 0;
-		TEST_MESSAGE("is a == 0?");
-		TEST_ASSERT(a == 0);
-	}
+	int a = 0;
+	TEST_MESSAGE("is a == 0?");
+	TEST_ASSERT(a == 0);
+    }
 };
 TEST_INSTANTIATE(TST_simple);   // [5]
 ```
@@ -64,46 +63,46 @@ This is a simple test class with one test function.<br>
 Inside a test function macros can be used to generate fails on specific conditions.
 - **TEST_COMPARE(a, b)**<br>
 Compares a and b for equality. Fails if, a != b.
-- **TEST_COMPARE_F(a, b, margin)**
+- **TEST_COMPARE_F(a, b, margin)**<br>
 Compares a and b for equality, taking a margin in to account.
 Fails if abs(a - b) > abs(margin)
-- **TEST_ASSERT(condition)**
+- **TEST_ASSERT(condition)**<br>
 Checks if the condition is true. Fails if condition != true.
-- **TEST_ASSERT_M(condition, assertMessage)**
+- **TEST_ASSERT_M(condition, assertMessage)**<br>
 Same as TEST_ASSERT, but lets you specify the text that will be displayed on failure.
-- **TEST_FAIL(assertMessage)**
+- **TEST_FAIL(assertMessage)**<br>
 Will fail and display the assertMessage to the console.
-- **TEST_MESSAGE(msg)**
+- **TEST_MESSAGE(msg)**<br>
 Will never fail, only prints a message to the console.
 
 Here you can see an example test case for the macros:
 ``` c++
 TEST_FUNCTION(test1)
 {
-	TEST_START;
+    TEST_START;
 
-	TEST_MESSAGE("Using macro TEST_COMPARE");
-	TEST_COMPARE(5, 5); // passes
-	TEST_COMPARE(5, 4); // fails
-	TEST_MESSAGE("");
+    TEST_MESSAGE("Using macro TEST_COMPARE");
+    TEST_COMPARE(5, 5); // passes
+    TEST_COMPARE(5, 4); // fails
+    TEST_MESSAGE("");
 
-	TEST_MESSAGE("Using macro TEST_COMPARE_F");
-	TEST_COMPARE_F(5.5, 5.5, 0.001); // passes
-	TEST_COMPARE_F(5.5, 5.4, 0.001); // fails
-	TEST_MESSAGE("");
+    TEST_MESSAGE("Using macro TEST_COMPARE_F");
+    TEST_COMPARE_F(5.5, 5.5, 0.001); // passes
+    TEST_COMPARE_F(5.5, 5.4, 0.001); // fails
+    TEST_MESSAGE("");
 
-	TEST_MESSAGE("Using macro TEST_ASSERT");
-	TEST_ASSERT(true); // passes
-	TEST_ASSERT(false); // fails
-	TEST_MESSAGE("");
+    TEST_MESSAGE("Using macro TEST_ASSERT");
+    TEST_ASSERT(true); // passes
+    TEST_ASSERT(false); // fails
+    TEST_MESSAGE("");
 
-	TEST_MESSAGE("Using macro TEST_ASSERT_M");
-	TEST_ASSERT_M(true, "shuld not be visible to the console"); // passes
-	TEST_ASSERT_M(false, "shuld be visible to the console"); // fails
-	TEST_MESSAGE("");
+    TEST_MESSAGE("Using macro TEST_ASSERT_M");
+    TEST_ASSERT_M(true, "shuld not be visible to the console"); // passes
+    TEST_ASSERT_M(false, "shuld be visible to the console"); // fails
+    TEST_MESSAGE("");
 
-	TEST_MESSAGE("Using macro TEST_FAIL");
-	TEST_FAIL("Failed because of something"); // fails		
+    TEST_MESSAGE("Using macro TEST_FAIL");
+    TEST_FAIL("Failed because of something"); // fails		
 }
 ```
 
@@ -121,15 +120,15 @@ TEST_FUNCTION(test1)
 
 int main(int argc, char* argv[])
 {
-	std::cout << "Running "<< UnitTest::Test::getTests().size() << " tests...\n";
-	UnitTest::Test::TestResults results;    // Create a container that holds the test results
-	UnitTest::Test::runAllTests(results);   // Runs all tests
-	UnitTest::Test::printResults(results);  // Prints the testresult to the console
+    std::cout << "Running "<< UnitTest::Test::getTests().size() << " tests...\n";
+    UnitTest::Test::TestResults results;    // Create a container that holds the test results
+    UnitTest::Test::runAllTests(results);   // Runs all tests
+    UnitTest::Test::printResults(results);  // Prints the testresult to the console
 
     return results.getSuccess();
 }
 ```
-The output of this test:
+The output of tests can look like this:
 
 <img src="documentation/output.png" alt="Overview" width="500"/>
 
