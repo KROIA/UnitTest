@@ -12,7 +12,7 @@
 
 // Instantiate Tests here:
 // TEST_INSTANTIATE(Test_simple); // Where Test_simple is a derived class from the Test class
-TEST_INSTANTIATE(TST_simple); 
+
 
 int main(int argc, char* argv[])
 {
@@ -40,6 +40,6 @@ int main(int argc, char* argv[])
 #ifdef QT_ENABLED
 	return app.exec();
 #else
-	return 0;
+	return results.getSuccess();
 #endif
 }

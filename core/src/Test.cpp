@@ -55,7 +55,8 @@ namespace UnitTest
 		for (size_t i = 0; i < m_testFunctions.size(); ++i)
 		{
 			TestResults r;
-			success &= m_testFunctions[i](r);
+			m_testFunctions[i](r);
+			success &= r.getSuccess();
 			results.subResults.push_back(r);
 		}
 		for (size_t i = 0; i < m_subTests.size(); ++i)
@@ -91,8 +92,10 @@ namespace UnitTest
 	}
 	void Test::printResultsRecursive(const TestResults& results, int depth)
 	{
+		std::string tabs;
 		for (int i = 0; i < depth; ++i)
-			std::cout << " | ";
+			tabs += " | ";
+		std::cout << tabs;
 		int color = color_white;
 		std::cout << " +-" << results.name << ": ";
 		if (results.getSuccess())
@@ -112,10 +115,27 @@ namespace UnitTest
 
 		for (size_t i = 0; i < results.results.size(); ++i)
 		{
-			for (int j = 0; j < depth; ++j)
-				std::cout << " | ";
+			std::vector<std::string> lineSplitted;
+			std::string msg = results.results[i].message;
+			while (msg.find("\n") != std::string::npos)
+			{
+				lineSplitted.push_back(msg.substr(0, msg.find("\n")+1));
+				msg = msg.substr(msg.find("\n") + 1);
+			}
+			lineSplitted.push_back(msg);
+
+			std::string fileLineNumber = "Line [" + std::to_string(results.results[i].lineNr) + "]: ";
+			for (size_t line = 0; line < lineSplitted.size(); ++line)
+			{
+				std::cout << tabs << fileLineNumber << lineSplitted[line];
+				if (line == 0)
+					fileLineNumber = std::string(fileLineNumber.size(), ' ');
+			}
+
+			//std::cout << tabs;
 			std::string stateString;
-			std::cout << " |   " << results.results[i].message;
+			
+			//std::cout << " |   " << results.results[i].message;
 
 			// print the state in the correct color
 			color = color_white;

@@ -6,6 +6,21 @@
 #include <functional>
 #include <chrono>
 
+/*
+	Test macros
+	+-------------------------------------------+---------------------------------------------------------------------------+
+	|     Name	                                |                             Functionality                                 |
+	+-------------------------------------------+---------------------------------------------------------------------------+
+	| TEST_COMPARE(a, b)                        | Compares a == b, if false, the test fails.                                |
+	| TEST_COMPARE_F(a, b, margin)              | Compares abs(a - b) <= margin, if false, the test fails.                  |
+	|                                           | Use this macro to compare float or double values and set a low margin.    |
+	| TEST_ASSERT(condition)                    | Checks condition == true, if the condition is false, the test fails.      |
+	| TEST_ASSERT_M(condition, assertMessage)   | Same as TEST_ASSERT, but the fail message can be defined.                 |
+	| TEST_FAIL(assertMessage)                  | Fails the test and uses the assertMessage as reason for the fail.         |
+	| TEST_MESSAGE(msg)                         | Prints a text to the test log. This does never fail.                      |
+	+-------------------------------------------+---------------------------------------------------------------------------+
+*/
+
 // MSVC Compiler
 #ifdef _MSC_VER 
 #define __PRETTY_FUNCTION__ __FUNCSIG__
@@ -28,6 +43,7 @@ namespace UnitTest
 		struct TestResult
 		{
 			ResultState state;
+			unsigned int lineNr;
 			std::string message;
 		};
 		struct TestResults
@@ -61,11 +77,11 @@ namespace UnitTest
 				this->success = success;
 			}
 		private:
-			bool success = false;
+			bool success = true;
 
 			
 		};
-		using TestFunction = std::function<bool(TestResults&)>;
+		using TestFunction = std::function<void(TestResults&)>;
 
 		Test(const std::string& name);
 		virtual ~Test();
@@ -89,10 +105,10 @@ namespace UnitTest
 		static void printResults(const TestResults& results);
 	protected:
 
-#define ADD_TEST(test) addTest(this, &test)
+
 
 		template<typename ObjectType>
-		void addTest(ObjectType* obj, bool(ObjectType::* memberFunc)(TestResults& r))
+		void addTest(ObjectType* obj, void(ObjectType::* memberFunc)(TestResults& r))
 		{
 			m_testFunctions.push_back(bindMember(obj, memberFunc));
 		}
@@ -102,7 +118,7 @@ namespace UnitTest
 
 		// Connects an object member function to this signal
 		template<typename ObjectType>
-		static TestFunction bindMember(ObjectType* obj, bool(ObjectType::* memberFunc)(TestResults& r))
+		static TestFunction bindMember(ObjectType* obj, void(ObjectType::* memberFunc)(TestResults& r))
 		{
 			return [obj, memberFunc](TestResults& r) { return (obj->*memberFunc)(r); };
 		}
@@ -129,8 +145,6 @@ namespace UnitTest
 
 		std::string m_name;
 		bool m_breakTestOnFail;
-
-		//static std::vector<Test*> s_tests;
 	};
 }
 
@@ -142,16 +156,12 @@ namespace UnitTest
 #define TEST_INSTANTIATE(className) \
 	className className::instance;
 
-#define TEST_START(res) \
-	bool success = true; \
-	Test::TestResults &r = res; \
-	r.name = __FUNCTION__;
+#define ADD_TEST(test) addTest(this, &test)
+#define TEST_FUNCTION(name) void name(TestResults& results)
 
-#define TEST_END \
-	r.setSuccess(success); \
-	return success;
+#define TEST_START \
+	results.name = __FUNCTION__;
 
-//#define TEST_FILE_LINE_STR (getName()+":" + std::to_string(__LINE__)+" ")
 #define TEST_FILE_LINE_STR ("Line [" + std::to_string(__LINE__)+"]: ")
 
 #define TEST_COMPARE(a, b) \
@@ -159,43 +169,42 @@ namespace UnitTest
 	{ \
         Test::TestResult res; \
         res.state = Test::ResultState::pass; \
-        res.message = TEST_FILE_LINE_STR+"Expected (" + std::string(#a) + ") to equal (" + std::string(#b) + ")"; \
-		r.results.push_back(res); \
+		res.lineNr = __LINE__; \
+        res.message = "Expected (" + std::string(#a) + ") to equal (" + std::string(#b) + ")"; \
+		results.results.push_back(res); \
     } \
 	else \
 	{ \
-		Test::TestResult res; \
-		res.state = Test::ResultState::fail; \
-		res.message = TEST_FILE_LINE_STR+"Expected (" + std::string(#a) + ") to equal (" + std::string(#b)+ ")"; \
-		r.results.push_back(res); \
-		success = false; \
-		onFail(res.message); \
-		if(doesBreakOnFail()) \
-		{ \
-			TEST_END; \
-		} \
+		TEST_FAIL("Expected (" + std::string(#a) + ") to equal (" + std::string(#b)+ ")"); \
 	}
+
+#define TEST_COMPARE_F(a, b, margin) \
+	if(std::abs((a) - (b)) <= std::abs(margin)) \
+	{ \
+        Test::TestResult res; \
+        res.state = Test::ResultState::pass; \
+		res.lineNr = __LINE__; \
+        res.message = "Expected (" + std::string(#a) + ") to equal (" + std::string(#b) + ") +-"+std::to_string(std::abs(margin)*0.5); \
+		results.results.push_back(res); \
+    } \
+	else \
+	{ \
+		TEST_FAIL("Expected (" + std::string(#a) + ") to equal (" + std::string(#b)+ ") +-"+std::to_string(std::abs(margin)*0.5)); \
+	}
+
 
 #define TEST_ASSERT_M(condition, assertMessage) \
 	if((condition)) \
 	{ \
 		Test::TestResult res; \
 		res.state = Test::ResultState::pass; \
-		res.message = TEST_FILE_LINE_STR+"Expected (" + std::string(#condition) + ") to be true"; \
-		r.results.push_back(res); \
+		res.lineNr = __LINE__; \
+		res.message = "Expected (" + std::string(#condition) + ") to be true"; \
+		results.results.push_back(res); \
 	} \
 	else \
 	{ \
-		Test::TestResult res; \
-		res.state = Test::ResultState::fail; \
-		res.message = TEST_FILE_LINE_STR+assertMessage; \
-		r.results.push_back(res); \
-		success = false; \
-		onFail(res.message); \
-		if(doesBreakOnFail()) \
-		{ \
-			TEST_END; \
-		} \
+		TEST_FAIL(assertMessage); \
 	}
 
 #define TEST_ASSERT(condition) \
@@ -205,20 +214,23 @@ namespace UnitTest
 	{ \
 		Test::TestResult res; \
 		res.state = Test::ResultState::none; \
-		res.message = TEST_FILE_LINE_STR+msg; \
-		r.results.push_back(res); \
+		res.lineNr = __LINE__; \
+		res.message = msg; \
+		results.results.push_back(res); \
 	}
 
-#define TEST_FAIL(reason) \
+#define TEST_FAIL(assertMessage) \
 	{ \
 		Test::TestResult res; \
 		res.state = Test::ResultState::fail; \
-		res.message = TEST_FILE_LINE_STR+reason; \
-		r.results.push_back(res); \
-		success = false; \
+		res.lineNr = __LINE__; \
+		res.message = (assertMessage); \
+		results.results.push_back(res); \
+		results.setSuccess(false); \
+		/*success = false;*/ \
 		onFail(res.message); \
 		if(doesBreakOnFail()) \
 		{ \
-			TEST_END; \
+			return; \
 		} \
 	}
