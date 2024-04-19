@@ -117,19 +117,19 @@ IF(MSVC AND QT_MISSING)
             endif()
         endforeach()
     endforeach()
-    list(GET QT_VERSIONS 0 QT_VERSION)
+    list(GET QT_VERSIONS 0 newestQtVersionPath)
 
     # fix any double slashes which seem to be common
-    STRING(REPLACE "//" "/"  QT_VERSION "${QT_VERSION}")
+    STRING(REPLACE "//" "/"  newestQtVersionPath "${newestQtVersionPath}")
 
 
 
     # Initialize variables to store the newest compiler version and path
     
-    set(NewestCompilerPath "${QT_VERSION}/${QT_COMPILER}")
+    set(NewestCompilerPath "${newestQtVersionPath}/${QT_COMPILER}")
 
     if(NOT DEFINED QT_COMPILER OR NOT EXISTS ${NewestCompilerPath} OR QT_COMPILER STREQUAL "autoFind")
-        get_newest_msvc_compiler_path(NewestCompilerPath ${QT_VERSION})
+        get_newest_msvc_compiler_path(NewestCompilerPath ${newestQtVersionPath})
     endif()
 
     
