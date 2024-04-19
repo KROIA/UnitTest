@@ -163,6 +163,7 @@ ENDIF()
 
 function(qt_wrap_internal_cpp outFiles)
     cmake_parse_arguments(inFiles "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    set(inFiles ${inFiles_UNPARSED_ARGUMENTS})
     # Get the length of the list
     list(LENGTH inFiles listLength)
     if(listLength GREATER  0)
@@ -181,6 +182,7 @@ endfunction()
 
 function(qt_wrap_internal_ui outFiles)
     cmake_parse_arguments(inFiles "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    set(inFiles ${inFiles_UNPARSED_ARGUMENTS})
     # Get the length of the list
     list(LENGTH inFiles listLength)
     if(listLength GREATER  0)
@@ -198,6 +200,7 @@ endfunction()
 
 function(qt_add_internal_resources outFiles)
     cmake_parse_arguments(inFiles "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    set(inFiles ${inFiles_UNPARSED_ARGUMENTS})
     # Get the length of the list
     list(LENGTH inFiles listLength)
     if(listLength GREATER  0)
