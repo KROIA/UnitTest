@@ -32,7 +32,7 @@ namespace UnitTest
 	Test::~Test()
 	{
 		std::vector<Test*>& s_tests = getTestsInternal();
-		auto& it = std::find(s_tests.begin(), s_tests.end(), this);
+		const auto& it = std::find(s_tests.begin(), s_tests.end(), this);
 		if (it != s_tests.end())
 			s_tests.erase(it);
 	}
