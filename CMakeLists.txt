@@ -64,9 +64,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)             # <AUTO_REPLACED>
 # -------------------- Build settings --------------------------------------------
 # --------------------------------------------------------------------------------
 
-set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})   # Default install path
-set(RELATIVE_BUILD_FOLDER build)                # Relative path to the build folder
-set(RELATIVE_INSTALL_FOLDER lib)                # Relative path to the install folder
+set_if_not_defined(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/installation)   # Default install path
+set_if_not_defined(RELATIVE_BUILD_FOLDER build)                             # Relative path to the build folder
+set_if_not_defined(RELATIVE_INSTALL_LIB_FOLDER lib)                         # Relative path to the install folder
+set_if_not_defined(RELATIVE_INSTALL_BIN_FOLDER bin)                         # Relative path to the install binary folder
 
 
 set_if_not_defined(COMPILE_EXAMPLES ON)						# <AUTO_REPLACED> 
@@ -106,8 +107,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/${RELATIVE_BUILD_FOLDER}
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/${RELATIVE_BUILD_FOLDER}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/${RELATIVE_BUILD_FOLDER}")
 
-set(INSTALL_LIB_PATH "${CMAKE_INSTALL_PREFIX}/${RELATIVE_INSTALL_FOLDER}")
-set(INSTALL_BIN_PATH "${CMAKE_INSTALL_PREFIX}/bin")
+set(INSTALL_LIB_PATH "${CMAKE_INSTALL_PREFIX}/${RELATIVE_INSTALL_LIB_FOLDER}")
+set(INSTALL_BIN_PATH "${CMAKE_INSTALL_PREFIX}/${RELATIVE_INSTALL_BIN_FOLDER}")
 set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/dependencies/cache")
 # create bin folder
 
