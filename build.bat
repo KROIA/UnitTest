@@ -27,7 +27,6 @@ REM Funktionsaufruf build(Debug, projectRootPath)
 CALL :build Debug, "%projectRootPath%/installation"
 CALL :build Release, "%projectRootPath%/installation"
 
-REM pause
 EXIT /b 0
 
 REM Funktionsdefinition
