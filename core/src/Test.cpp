@@ -1,6 +1,7 @@
 ﻿#include "Test.h"
 #include <iostream>
 #include <windows.h>
+#include <algorithm>
 
 #define color_black      0
 #define color_dark_blue  1
