@@ -4,7 +4,9 @@
 
 /// USER_SECTION_END
 
-#include "UnitTest_base.h"
+#include "UnitTest_global.h"
+#include "UnitTest_debug.h"
+
 #include <sstream>
 
 #define STRINGIFY(x) #x

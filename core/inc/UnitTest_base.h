@@ -6,6 +6,7 @@
 
 #include "UnitTest_global.h"
 #include "UnitTest_debug.h"
+#include "UnitTest_info.h"
 
 /// USER_SECTION_START 2
 
