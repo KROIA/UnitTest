@@ -31,7 +31,7 @@ typedef std::chrono::system_clock::time_point TimePoint;
 
 namespace UnitTest
 {
-	class UNIT_TEST_EXPORT Test
+	class UNIT_TEST_API Test
 	{
 	public:
 		enum ResultState
