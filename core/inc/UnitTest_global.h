@@ -11,13 +11,13 @@
 #ifndef BUILD_STATIC
 	//#pragma message("UNITTEST_LIB is a shared library")
 	#if defined(UNITTEST_LIB)
-		#define UNIT_TEST_EXPORT __declspec(dllexport)
+		#define UNIT_TEST_API __declspec(dllexport)
 	#else
-		#define UNIT_TEST_EXPORT __declspec(dllimport)
+		#define UNIT_TEST_API __declspec(dllimport)
 	#endif
 #else 
 	//#pragma message("UNITTEST_LIB is a static library")
-	#define UNIT_TEST_EXPORT
+	#define UNIT_TEST_API
 #endif
 
 /// USER_SECTION_START 2

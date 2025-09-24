@@ -29,7 +29,7 @@ namespace UnitTest
 
 /// USER_SECTION_END
 
-	class UNIT_TEST_EXPORT LibraryInfo
+	class UNIT_TEST_API LibraryInfo
 	{
 		LibraryInfo() = delete;
 		LibraryInfo(const LibraryInfo&) = delete;

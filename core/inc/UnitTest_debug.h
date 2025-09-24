@@ -89,7 +89,7 @@ namespace UnitTest
 /// USER_SECTION_START 4
 
 /// USER_SECTION_END
-	class UNIT_TEST_EXPORT Profiler
+	class UNIT_TEST_API Profiler
 	{
 	public:
 		/// USER_SECTION_START 5
@@ -112,7 +112,7 @@ namespace UnitTest
 
 
 #if LOGGER_LIBRARY_AVAILABLE == 1
-	class UNIT_TEST_EXPORT Logger 
+	class UNIT_TEST_API Logger 
 	{
 		/// USER_SECTION_START 8
 
