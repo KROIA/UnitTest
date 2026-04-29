@@ -6,6 +6,7 @@
 
 #include "UnitTest_global.h"
 #include "UnitTest_debug.h"
+#include "UnitTest_meta.h"
 
 #include <sstream>
 
@@ -53,15 +54,15 @@ namespace UnitTest
 		};
 
 
-		// Current version of the library
-		static constexpr int versionMajor				= 0;
-		static constexpr int versionMinor				= 0;
-		static constexpr int versionPatch				= 0;
+		// Current version of the library — driven by LIBRARY_VERSION in CMakeLists.txt
+		static constexpr int versionMajor				= UnitTest_VERSION_MAJOR;
+		static constexpr int versionMinor				= UnitTest_VERSION_MINOR;
+		static constexpr int versionPatch				= UnitTest_VERSION_PATCH;
 
 		static constexpr Version version{ versionMajor, versionMinor, versionPatch };
 
-		// Library name
-		static constexpr const char* name				= "UnitTest";
+		// Library name — driven by LIBRARY_NAME in CMakeLists.txt
+		static constexpr const char* name				= UnitTest_LIBRARY_NAME;
 		static constexpr const char* author				= "Alex Krieg";
 		static constexpr const char* email				= "";
 		static constexpr const char* website			= "";
