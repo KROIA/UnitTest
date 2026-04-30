@@ -210,6 +210,21 @@ namespace UnitTest
 #define TEST_ASSERT(condition) \
     TEST_ASSERT_M(condition, "Expected (" + std::string(#condition) + ") to be true")
 
+#define TEST_ASSERT_EQUAL(a, b) \
+	TEST_ASSERT_M((a) == (b), "Expected (" + std::string(#a) + ") to equal (" + std::string(#b) + ")")
+
+#define TEST_ASSERT_FALSE(condition) \
+	TEST_ASSERT_M(!(condition), "Expected (" + std::string(#condition) + ") to be false")
+
+#define TEST_ASSERT_TRUE(condition) \
+	TEST_ASSERT_M((condition), "Expected (" + std::string(#condition) + ") to be true")
+
+#define TEST_ASSERT_NULL(condition) \
+	TEST_ASSERT_M((condition) == nullptr, "Expected (" + std::string(#condition) + ") to be null")
+
+#define TEST_ASSERT_NOT_NULL(condition) \
+	TEST_ASSERT_M((condition) != nullptr, "Expected (" + std::string(#condition) + ") to be not null")
+
 #define TEST_MESSAGE(msg) \
 	{ \
 		Test::TestResult res; \
